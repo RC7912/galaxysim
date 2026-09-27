@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>GalaxySim</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div id="toolbar">
+    <button id="spawnBtn">+ New Galaxy</button>
+    <button id="customBtn">Custom Galaxy</button>
+    <button id="clearBtn">Clear</button>
+    <span id="hint">Drag a galaxy onto another to merge them</span>
+  </div>
+
+  <div id="customPanel" class="hidden">
+    <div class="panelRow">
+      <label for="colorInput">Color</label>
+      <input type="color" id="colorInput" value="#7c4dff">
+    </div>
+    <div class="panelRow">
+      <label for="sizeInput">Size</label>
+      <input type="range" id="sizeInput" min="30" max="180" value="90">
+      <span id="sizeValue">90</span>
+    </div>
+    <div class="panelRow">
+      <label for="armsInput">Arms</label>
+      <input type="range" id="armsInput" min="1" max="6" value="3">
+      <span id="armsValue">3</span>
+    </div>
+    <div class="panelRow buttons">
+      <button id="placeBtn">Click canvas to place</button>
+      <button id="cancelCustomBtn">Cancel</button>
+    </div>
+  </div>
+
+  <canvas id="canvas"></canvas>
+  <script src="renderer.js"></script>
+</body>
+</html>

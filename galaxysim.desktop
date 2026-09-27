@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Name=GalaxySim
+Comment=Generate and merge random galaxies
+Exec=/home/dimas/Projects/galaxysim/run.sh
+Icon=/home/dimas/Projects/galaxysim/assets/icon.png
+Terminal=false
+Categories=Education;Game;

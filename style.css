@@ -1,0 +1,123 @@
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  background: #05050a;
+  overflow: hidden;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+#toolbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px;
+  background: rgba(10, 10, 20, 0.6);
+  backdrop-filter: blur(6px);
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+}
+
+button {
+  background: #1c1c30;
+  color: #e8e8ff;
+  border: 1px solid rgba(255,255,255,0.15);
+  border-radius: 6px;
+  padding: 8px 14px;
+  font-size: 13px;
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+
+button:hover {
+  background: #2a2a48;
+}
+
+#hint {
+  margin-left: auto;
+  color: rgba(255,255,255,0.4);
+  font-size: 12px;
+}
+
+canvas {
+  display: block;
+  width: 100vw;
+  height: 100vh;
+}
+
+canvas.placing {
+  cursor: crosshair;
+}
+
+#customPanel {
+  position: fixed;
+  top: 54px;
+  left: 14px;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 14px 16px;
+  background: rgba(10, 10, 20, 0.75);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 8px;
+  min-width: 220px;
+}
+
+#customPanel.hidden {
+  display: none;
+}
+
+.panelRow {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.panelRow label {
+  color: rgba(255,255,255,0.75);
+  font-size: 12px;
+  width: 40px;
+  flex-shrink: 0;
+}
+
+.panelRow input[type="range"] {
+  flex: 1;
+}
+
+.panelRow span {
+  color: rgba(255,255,255,0.6);
+  font-size: 12px;
+  width: 28px;
+  text-align: right;
+}
+
+.panelRow input[type="color"] {
+  width: 40px;
+  height: 26px;
+  border: none;
+  border-radius: 4px;
+  background: none;
+  padding: 0;
+  cursor: pointer;
+}
+
+.panelRow.buttons {
+  justify-content: space-between;
+  margin-top: 4px;
+}
+
+.panelRow.buttons button {
+  flex: 1;
+}
+
+#placeBtn.armed {
+  background: #3a2a6a;
+  border-color: rgba(180,150,255,0.5);
+}

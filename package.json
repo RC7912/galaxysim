@@ -1,0 +1,28 @@
+{
+  "name": "galaxysim",
+  "version": "1.0.0",
+  "description": "Random galaxy generator and merger - native desktop app",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron . --no-sandbox",
+    "dist": "electron-builder"
+  },
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "electron": "^31.7.7",
+    "electron-builder": "^24.13.3"
+  },
+  "build": {
+    "appId": "com.galaxysim.app",
+    "productName": "GalaxySim",
+    "linux": {
+      "target": [
+        "AppImage",
+        "deb"
+      ],
+      "category": "Education",
+      "icon": "assets/icon.png"
+    }
+  }
+}
