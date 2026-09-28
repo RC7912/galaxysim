@@ -243,10 +243,57 @@ function spawnRandom() {
   galaxies.push(g);
 }
 
-document.getElementById('spawnBtn').addEventListener('click', spawnRandom);
-document.getElementById('clearBtn').addEventListener('click', () => {
-  galaxies = [];
+let mode = 'galaxies';
+
+const spawnBtn = document.getElementById('spawnBtn');
+const customBtn = document.getElementById('customBtn');
+const modeBtn = document.getElementById('modeBtn');
+const hint = document.getElementById('hint');
+
+spawnBtn.addEventListener('click', () => {
+  if (mode === 'planets') spawnRandomPlanet();
+  else spawnRandom();
 });
+
+document.getElementById('clearBtn').addEventListener('click', () => {
+  if (mode === 'planets') {
+    planets = [];
+    planetEffects = [];
+    planetDrag = null;
+  } else {
+    galaxies = [];
+  }
+});
+
+function setMode(next) {
+  mode = next;
+  const planetMode = mode === 'planets';
+  spawnBtn.textContent = planetMode ? '+ New Planet' : '+ New Galaxy';
+  customBtn.textContent = planetMode ? 'Custom Planet' : 'Custom Galaxy';
+  modeBtn.textContent = planetMode ? 'Galaxy Mode' : 'Planet Mode';
+  hint.textContent = planetMode
+    ? 'Planets attract each other and merge on impact. Drag and release to fling one.'
+    : 'Drag a galaxy onto another to merge them';
+  document.getElementById('armsRow').style.display = planetMode ? 'none' : '';
+  sizeInput.min = planetMode ? 5 : 30;
+  sizeInput.max = planetMode ? 60 : 180;
+  sizeInput.value = planetMode ? 20 : 90;
+  sizeValue.textContent = sizeInput.value;
+
+  dragTarget = null;
+  planetDrag = null;
+  for (const p of planets) p.held = false;
+  for (const g of galaxies) g.dragging = false;
+
+  if (planetMode && planets.length === 0) {
+    const cx = window.innerWidth / 2;
+    const cy = (window.innerHeight + TOOLBAR_HEIGHT) / 2;
+    addPlanet(makePlanet(cx, cy, 40, rand(20, 50), 90, 55));
+    for (let i = 0; i < 4; i++) spawnRandomPlanet();
+  }
+}
+
+modeBtn.addEventListener('click', () => setMode(mode === 'planets' ? 'galaxies' : 'planets'));
 
 // --- Custom galaxy creation ---
 function hexToHsl(hex) {
@@ -311,6 +358,10 @@ window.addEventListener('keydown', (e) => {
 function spawnCustomAt(x, y) {
   const { h, s, l } = hexToHsl(colorInput.value);
   const radius = Number(sizeInput.value);
+  if (mode === 'planets') {
+    spawnCustomPlanetAt(x, y, radius, h, Math.max(30, s), Math.min(Math.max(25, l), 75));
+    return;
+  }
   const arms = Number(armsInput.value);
   const g = makeGalaxy(x, y, radius, h, Math.max(30, s), Math.max(20, l), null, arms);
   galaxies.push(g);
@@ -336,6 +387,11 @@ canvas.addEventListener('mousedown', (e) => {
     return;
   }
 
+  if (mode === 'planets') {
+    planetMouseDown(e);
+    return;
+  }
+
   const g = galaxyAt(e.clientX, e.clientY);
   if (g) {
     dragTarget = g;
@@ -351,6 +407,10 @@ canvas.addEventListener('mousedown', (e) => {
 });
 
 window.addEventListener('mousemove', (e) => {
+  if (mode === 'planets') {
+    planetMouseMove(e);
+    return;
+  }
   if (dragTarget) {
     dragTarget.x = e.clientX - dragTarget.dragOffsetX;
     dragTarget.y = e.clientY - dragTarget.dragOffsetY;
@@ -368,6 +428,10 @@ function tryMerge(g) {
 }
 
 window.addEventListener('mouseup', () => {
+  if (mode === 'planets') {
+    planetMouseUp();
+    return;
+  }
   if (!dragTarget) return;
   const g = dragTarget;
   g.dragging = false;
@@ -443,6 +507,13 @@ function step(now) {
 
   ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
 
+  if (mode === 'planets') stepPlanets(dt);
+  else stepGalaxies(dt);
+
+  requestAnimationFrame(step);
+}
+
+function stepGalaxies(dt) {
   stepGalacticGravity(dt);
 
   for (const g of galaxies) {
@@ -477,8 +548,6 @@ function step(now) {
       }
     }
   }
-
-  requestAnimationFrame(step);
 }
 
 // seed with a couple of galaxies

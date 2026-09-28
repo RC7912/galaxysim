@@ -10,6 +10,7 @@
     <button id="spawnBtn">+ New Galaxy</button>
     <button id="customBtn">Custom Galaxy</button>
     <button id="clearBtn">Clear</button>
+    <button id="modeBtn">Planet Mode</button>
     <span id="hint">Drag a galaxy onto another to merge them</span>
   </div>
 
@@ -23,7 +24,7 @@
       <input type="range" id="sizeInput" min="30" max="180" value="90">
       <span id="sizeValue">90</span>
     </div>
-    <div class="panelRow">
+    <div class="panelRow" id="armsRow">
       <label for="armsInput">Arms</label>
       <input type="range" id="armsInput" min="1" max="6" value="3">
       <span id="armsValue">3</span>
@@ -35,6 +36,7 @@
   </div>
 
   <canvas id="canvas"></canvas>
+  <script src="planets.js"></script>
   <script src="renderer.js"></script>
 </body>
 </html>
